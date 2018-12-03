@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!--<head-top></head-top>-->
+    <head-top></head-top>
     <section class="data_section">
       <header class="section_title">数据统计</header>
       <el-row :gutter="20" style="margin-bottom: 10px;">
@@ -24,7 +24,8 @@
 
 
 <script>
-  import dtime from 'time-formater'
+  import dtime from 'time-formater';
+  import headTop from '../components/headTop'
   import {userCount,orderCount,adminCount,allUserCount,allOrderCount,allAdminCount} from '@/api/getData';
 
   export default{
@@ -41,7 +42,7 @@
       }
     },
     components:{
-
+      headTop,
     },
     mounted(){
       this.initData();
