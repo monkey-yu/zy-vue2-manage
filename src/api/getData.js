@@ -18,7 +18,10 @@ export const allOrderCount = data => fetch('/bos/orders/count', data);
 
 export const allAdminCount = () => fetch('/admin/count');
 
+export const getAdminInfo = () => fetch('/admin/info');
 
 //退出
 export const singout = () => fetch('/admin/singout');
 
+export const getUserCount = data => fetch('/v1/users/count',data);
+export const getUserList = data => fetch('/v1/users/list', data);
