@@ -18,7 +18,7 @@
 
       </el-row>
     </section>
-    <!--<tendency :sevenDate="sevenDate" :sevenDay="sevenDay"></tendency>-->
+    <tendency :sevenDate="sevenDate" :sevenDay="sevenDay"></tendency>
   </div>
 </template>
 
@@ -26,6 +26,7 @@
 <script>
   import dtime from 'time-formater';
   import headTop from '../components/headTop'
+  import tendency from '../components/tendency'
   import {userCount,orderCount,adminCount,allUserCount,allOrderCount,allAdminCount} from '@/api/getData';
 
   export default{
@@ -37,15 +38,23 @@
         allUserCount:null,
         allOrderCount:null,
         allAdminCount:null,
-        sevenDate:[],
-        sevenDay:[[],[],[]]
+        sevenDay:[],
+        sevenDate:[[],[],[]]
       }
     },
     components:{
       headTop,
+      tendency
     },
     mounted(){
       this.initData();
+      for(let i =6;i>-1;i--){
+        const date = dtime(new Date().getTime() - 86400000*i).format('YYYY-MM-DD')
+        this.sevenDay.push(date);
+
+      }
+
+      this.getSevenData()
     },
     computed:{
 
@@ -63,6 +72,28 @@
               this.allAdminCount= res[5].count;
 
           })
+          .catch(err => console.log(err))
+      },
+      async getSevenData(){
+        const apiArr=[[],[],[]];
+        this.sevenDay.forEach(item =>{
+          apiArr[0].push(userCount(item))
+          apiArr[1].push(orderCount(item))
+          apiArr[2].push(adminCount(item))
+
+        })
+        const promiseArr = [...apiArr[0],...apiArr[1],...apiArr[2]]
+
+        Promise.all(promiseArr).then(res =>{
+          const resArr = [[],[],[]];
+          res.forEach((item,index) =>{
+            if(item.status == 1){
+              resArr[Math.floor(index/7)].push(item.count)
+            }
+          })
+          this.sevenDate = resArr;
+          console.log(resArr);
+        })
           .catch(err => console.log(err))
       }
     }
