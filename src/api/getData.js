@@ -25,3 +25,23 @@ export const singout = () => fetch('/admin/singout');
 
 export const getUserCount = data => fetch('/v1/users/count',data);
 export const getUserList = data => fetch('/v1/users/list', data);
+
+export const cityGuess =() => fetch('/v1/cities',{
+  type:'guess'
+});
+
+export const getResturantsCount = () => fetch('/shopping/restaurants/count');
+export const getResturants = data => fetch('/shopping/restaurants', data);
+export const foodCategory = (latitude, longitude) => fetch('/shopping/v2/restaurant/category');
+export const updateResturant = data => fetch('/shopping/updateshop', data, 'POST');
+
+/**
+ * 删除餐馆
+ */
+
+export const deleteResturant = restaurant_id => fetch('/shopping/restaurant/' + restaurant_id, {}, 'DELETE');
+export const searchplace = (cityid, value) => fetch('/v1/pois', {
+  type: 'search',
+  city_id: cityid,
+  keyword: value
+});
